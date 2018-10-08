@@ -60,11 +60,12 @@ class Person(object):
         if self.infected != None:
             random_rate = random.random()
 
-            if random_rate < self.infected:
+            if random_rate <= Simulation.mortality_rate:
                 self.is_alive = False
                 self.infected = None
                 return False
-            elif random_rate > self.infected:
+
+            elif random_rate > Simulation.mortality_rate:
                 self.is_vaccinated = True
                 self.infected = None
                 return True
@@ -73,8 +74,10 @@ class Person(object):
      #     - Only called if infection attribute is not None.
      #     - Takes no inputs.
      #     - Generates a random number between 0 and 1.
+
      #     - Compares random number to mortality_rate attribute stored in person's infection
      #         attribute.
+
      #         - If random number is smaller, person as died from disease.
      #             is_alive is changed to false.
      #         - If random number is larger, person has survived disease.  Person's

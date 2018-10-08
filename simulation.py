@@ -43,15 +43,7 @@ class Simulation(object):
     total_infected: Int.  The running total of people that have been infected since the
     simulation began, including any people currently infected.
 
-    total_dead: Int.  The number of people that have died as a result
-
-
-
-
-
-
-
-     of the infection
+    total_dead: Int.  The number of people that have died as a result of the infection
         during this simulation.  Starts at zero.
 
 
@@ -84,6 +76,8 @@ class Simulation(object):
         self.total_infected = 0
         self.current_infected = 0
         self.next_person_id = 0
+
+
         self.virus_name = virus_name
         self.mortality_rate = mortality_rate
         self.basic_repro_num = basic_repro_num
@@ -124,15 +118,18 @@ class Simulation(object):
         id_array = list(range(0, self.population_size))
 
 
+        person_index = 0
 
         while len(population) != self.population_size:
 
             if infected_count != initial_infected:
-                person_id = id_array.pop(self.next_person_id)
+                # person_id = id_array.pop(self.next_person_id)
+                person_id = id_array.pop(person_index)
                 new_person = Person(person_id, False, True)
                 population.append(new_person)
-                self.next_person_id += 1
+                person_index += 1
                 infected_count += 1
+
                 # TODO: Create all the infected people first, and then worry about the rest.
                 # Don't forget to increment infected_count every time you create a
                 # new infected person!
@@ -141,15 +138,15 @@ class Simulation(object):
                 infect_prob = random.random()
 
                 if infect_prob < self.vacc_percentage:
-                    person_id = id_array.pop(self.next_person_id)
+                    person_id = id_array.pop(person_index)
                     vacc_person = Person(person_id, True, False)
                     population.append(vacc_person)
-                    self.next_person_id += 1
+                    person_index += 1
                 else:
-                    person_id = id_array.pop(id_count)
+                    person_id = id_array.pop(person_index)
                     unvacc_person = Person(person_id, False, False)
                     population.append(unvacc_person)
-                    self.next_person_id += 1
+                    person_index += 1
 
                 # Now create all the rest of the people.
                 # Every time a new person will be created, generate a random number between
@@ -229,10 +226,14 @@ class Simulation(object):
                 if random_person.is_alive == False:
                     continue
                 else:
-                    self.interaction(person, random_person)
+                    Simulation.interaction(person, random_person)
                     interactions += 1
 
         self._infect_newly_infected()
+
+#TODO Log time_step
+
+
             # - For each infected person in the population:
             #        - Repeat for 100 total interactions:
             #             - Grab a random person from the population.
@@ -290,6 +291,8 @@ class Simulation(object):
     def _infect_newly_infected(self):
 
         for id in self.newly_infected:
+#TODO sort id's numberically and then binary sort to find id
+
             for person in self.population:
                 if person._id == id:
                     person.infected = True

@@ -62,10 +62,10 @@ class Logger(object):
         with open(self.file_name, 'w') as logger:
                 logger.write("METADATA\n\n")
                 logger.write("Population Size: {}\n".format(pop_size))
-                logger.write("Percentage Vaccinated: {}\n"vacc_percentage)
+                logger.write("Percentage Vaccinated: {}\n".format(vacc_percentage))
                 logger.write("Virus Name: {}\n".format(virus_name))
                 logger.write("Mortality Rate: {}\n".format(mortality_rate))
-                logger.write("Basic Reproduction Rate: {}"format(basic_repro_num))
+                logger.write("Basic Reproduction Rate: {}".format(basic_repro_num))
 
                 logger.write(pop_size, vacc_percentage, virus_name, mortality_rate, basic_repro_num, end="\t")
 
@@ -86,20 +86,16 @@ class Logger(object):
 
 
         if did_infect == False:
-        with open(self.file_name, 'a') as logger:
-            if person2_vacc == True:
-                did_infect = False
-                logger.write("{} didn't infect {} because vaccinated.".format(person1._id, person2._id))
-            elif person2_vacc == False:
-                # person2_survival = person2.did_survive_infection()
-                # if person2_survival == False:
-                #     logger.write("{} infects {}".format(person1._id, person2._id))
-                # elif person2person2_survival == True:
-                #     logger.write("{} didn't infect {} because vaccinated.".format(person1._id, person2._id))
-                #
-
-        The format of the log should be "{person1.ID} infects {person2.ID}", or, for other edge
-        cases, "{person1.ID} didn't infect {person2.ID} because {'vaccinated' or 'already sick'}"
+            with open(self.file_name, 'a') as logger:
+                if person2_vacc == True:
+                    did_infect = False
+                    logger.write("Person {} didn't infect Person {} because vaccinated.\n".format(person1._id, person2._id))
+                elif person2_vacc == False:
+                    person2_survival = person2.did_survive_infection()
+                    if person2_survival == False:
+                        logger.write("Person {} infects Person {}\n".format(person1._id, person2._id))
+                    elif person2person2_survival == True:
+                        logger.write("Person {} didn't infect Person {} because vaccinated.\n".format(person1._id, person2._id))
 
 
 
@@ -114,19 +110,30 @@ class Logger(object):
         # all the possible edge cases!
         # NOTE: Make sure to end every line with a '/n' character to ensure that each
         # event logged ends up on a separate line!
-        pass
+
 
     def log_infection_survival(self, person, did_die_from_infection):
+
+        with open(self.file_name, 'a') as logger:
+            if did_die_from_infection == False:
+                logger.write("Person {} died from infection\n").format(person._id)
+            else:
+                logger.write("Person {} survived infection.\n").format(person._id)
+
         # TODO: Finish this method.  The Simulation object should use this method to log
         # the results of every call of a Person object's .resolve_infection() method.
+
         # If the person survives, did_die_from_infection should be False.  Otherwise,
         # did_die_from_infection should be True.  See the documentation for more details
         # on the format of the log.
-        # NOTE: Make sure to end every line with a '/n' character to ensure that each
-        # event logged ends up on a separate line!
-        pass
+
+
+
 
     def log_time_step(self, time_step_number):
+
+        with open(self.file_name, 'a') as logger:
+            logger.write("Time step {} ended, beginning {}...\n").format(time_step_number, time_step_number+1)
         # TODO: Finish this method.  This method should log when a time step ends, and a
         # new one begins.  See the documentation for more information on the format of the log.
         # NOTE: Stretch challenge opportunity! Modify this method so that at the end of each time
@@ -135,4 +142,3 @@ class Logger(object):
         # to compute these statistics for you, as a Logger's job is just to write logs!
         # NOTE: Make sure to end every line with a '/n' character to ensure that each
         # event logged ends up on a separate line!
-        pass
