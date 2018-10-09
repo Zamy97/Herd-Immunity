@@ -123,6 +123,9 @@ class Simulation(object):
         while len(population) != self.population_size:
 
             if infected_count != initial_infected:
+#TODO  Infected is not a Boolean variable, need to pass in a Virus object
+#TODO If self._id is initializatied at 0 then we can just increment that variable in the constructor of the Person objects that we create
+                
                 # person_id = id_array.pop(self.next_person_id)
                 person_id = id_array.pop(person_index)
                 new_person = Person(person_id, False, True)
