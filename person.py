@@ -6,8 +6,6 @@ class Person(object):
     '''
     Person objects will populate the simulation.
 
-
-
     _____Methods_____:
 
     __init__(self, _id, is_vaccinated, infected=False):
@@ -52,7 +50,7 @@ class Person(object):
             #     is infected with.
             #
 
-    def did_survive_infection():
+    def did_survive_infection(self):
         # TODO:  Finish this method. Follow the instructions in the class documentation
         # for resolve_infection.  If person dies, set is_alive to False and return False.
         # If person lives, set is_vaccinated = True, infected = None, return True.
@@ -60,12 +58,12 @@ class Person(object):
         if self.infected != None:
             random_rate = random.random()
 
-            if random_rate <= Simulation.mortality_rate:
+            if random_rate <= self.infected.mortality_rate:
                 self.is_alive = False
                 self.infected = None
                 return False
 
-            elif random_rate > Simulation.mortality_rate:
+            elif random_rate > self.infected.mortality_rate:
                 self.is_vaccinated = True
                 self.infected = None
                 return True

@@ -81,23 +81,27 @@ class Logger(object):
         # event logged ends up on a separate line!
 
 
-    def log_interaction(self, person1, person2, did_infect=None,
-                        person2_vacc=None, person2_sick=None):
+    def log_interaction(self, person1, person2, did_infect,
+                        person2_vacc, person2_sick):
 
-
-        if did_infect == False:
+        if person2_vacc == True:
+            print(str(person2_vacc) + ":person2_vacc should be True")
             with open(self.file_name, 'a') as logger:
-                if person2_vacc == True:
-                    did_infect = False
+                logger.write("Person {} didn't infect Person {} because vaccinated.\n".format(person1._id, person2._id))
+        if person2_vacc == False:
+            print(str(person2_vacc) + ":person2_vacc should be False")
+            print(str(did_infect)+ " person is infected")
+            # person2_survival = person2.did_survive_infection()
+            if did_infect == True:
+                print(str(did_infect) + ":did_infect should be True")
+                with open(self.file_name, 'a') as logger:
+                    logger.write("Person {} infects Person {}\n".format(person1._id, person2._id))
+            else:
+                print(str(did_infect) + ":did_infect should be False")
+                with open(self.file_name, 'a') as logger:
                     logger.write("Person {} didn't infect Person {} because vaccinated.\n".format(person1._id, person2._id))
-                elif person2_vacc == False:
-                    person2_survival = person2.did_survive_infection()
-                    if person2_survival == False:
-                        logger.write("Person {} infects Person {}\n".format(person1._id, person2._id))
-                    elif person2person2_survival == True:
-                        logger.write("Person {} didn't infect Person {} because vaccinated.\n".format(person1._id, person2._id))
 
-
+        #TODO WHAT IF did_infect was TRUE
 
         # TODO: Finish this method.  The Simulation object should use this method to
         # log every interaction a sick individual has during each time step.  This method
@@ -133,7 +137,8 @@ class Logger(object):
     def log_time_step(self, time_step_number):
 
         with open(self.file_name, 'a') as logger:
-            logger.write("Time step {} ended, beginning {}...\n").format(time_step_number, time_step_number+1)
+            next_time_step = time_step_number+1
+            logger.write("Time step {} ended, beginning {}...\n".format(time_step_number, next_time_step))
         # TODO: Finish this method.  This method should log when a time step ends, and a
         # new one begins.  See the documentation for more information on the format of the log.
         # NOTE: Stretch challenge opportunity! Modify this method so that at the end of each time
