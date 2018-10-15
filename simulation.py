@@ -207,6 +207,8 @@ class Simulation(object):
         # print("Death counter = {}".format(death_counter))
         # print("population infected = {}".format(population_infected))
 
+        if len(self.newly_infected) == 0:
+            return False
 
 
 
@@ -248,6 +250,8 @@ class Simulation(object):
             self.logger.log_time_step(self.time_step_counter)
             self.time_step_counter += 1
             should_continue = self._simulation_should_continue()
+            self._infect_newly_infected()
+
 
         # TODO: for every iteration of this loop, call self.time_step() to compute another
         # round of this simulation.
@@ -263,7 +267,6 @@ class Simulation(object):
 
         # print(len(self.newly_infected))
 
-        death_counter = 0
 
         for person in self.population:
             # print("****************")
@@ -291,7 +294,7 @@ class Simulation(object):
                         self.interaction(person, random_person)
                         interactions += 1
 
-        self._infect_newly_infected()
+        # self._infect_newly_infected()
 
 
 
@@ -324,41 +327,41 @@ class Simulation(object):
         assert person.is_alive == True
         assert random_person.is_alive == True
 
-        self.logger.log_interaction(person, random_person, True, False, True)
-        self.logger.log_interaction(person, random_person, False, True, False)
-        self.logger.log_interaction(person, random_person, False, False, True)
+        # self.logger.log_interaction(person, random_person, True, False, True)
+        # self.logger.log_interaction(person, random_person, False, True, False)
+        # self.logger.log_interaction(person, random_person, False, False, True)
 
         #
         # # TODO need to make sure only living people are passed through. How many interactions must go on for how many people?
-        #
-        # if random_person.is_vaccinated == True:
-        #     # print(str(random_person.is_vaccinated) + ": Should be True")
-        #     self.logger.log_interaction(person, random_person, False, True, False)
-        #
-        # if random_person.infected != None:
-        #     # print(str(random_person.infected) + ": Should be none")
-        #     self.logger.log_interaction(person, random_person, False, False, True)
-        #     #Make sure that this logs that person wasn't infected because already infected
-        #
-        # if random_person.is_vaccinated == False:
-        #     # print(str(person.infected) + "Should be an object")
-        #
-        #         # print("CHECKING RANDOM PERSON VACC == FALSE") #NOT NESCESSARY IF WE ONLY ONLY LOGGING THE INTERACTIONS OF INFECTED PEOPLE
-        #     infect_prob = random.random()
-        #     if infect_prob <= self.basic_repro_num:
-        #         # print("CHECKING RANDOM PERSON VACC == FALSE")
-        #         self.current_infected += 1
-        #         self.total_infected += 1
-        #
-        #         self.newly_infected.append(random_person._id)
-        #
-        #         self.logger.log_interaction(person, random_person, True, False, True) #Shouldn't last parameter be True?
-        #         #Person1 infected the random person and made them sick
-        #     else:
-        #         self.logger.log_interaction(person, random_person, False, False, False)
-        #             #random person did not catch sickness from the infected person.
 
-        #             # did_infect=None, person2_vacc=None, person2_sick=None
+        if random_person.is_vaccinated == True:
+            # print(str(random_person.is_vaccinated) + ": Should be True")
+            self.logger.log_interaction(person, random_person, False, True, False)
+
+        if random_person.infected != None:
+            # print(str(random_person.infected) + ": Should be none")
+            self.logger.log_interaction(person, random_person, False, False, True)
+            #Make sure that this logs that person wasn't infected because already infected
+
+        if random_person.is_vaccinated == False:
+            # print(str(person.infected) + "Should be an object")
+
+                # print("CHECKING RANDOM PERSON VACC == FALSE") #NOT NESCESSARY IF WE ONLY ONLY LOGGING THE INTERACTIONS OF INFECTED PEOPLE
+            infect_prob = random.random()
+            if infect_prob <= self.basic_repro_num:
+                # print("CHECKING RANDOM PERSON VACC == FALSE")
+                self.current_infected += 1
+                self.total_infected += 1
+
+                self.newly_infected.append(random_person._id)
+
+                self.logger.log_interaction(person, random_person, True, False, True) #Shouldn't last parameter be True?
+                #Person1 infected the random person and made them sick
+            else:
+                self.logger.log_interaction(person, random_person, False, False, False)
+                    #random person did not catch sickness from the infected person.
+
+                    # did_infect=None, person2_vacc=None, person2_sick=None
 
 
 
@@ -380,8 +383,6 @@ class Simulation(object):
     def _infect_newly_infected(self):
 
         for id in self.newly_infected:
-#TODO sort id's numberically and then binary sort to find id
-
             for person in self.population:
                 if person._id == id:
                     person.infected = True
