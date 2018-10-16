@@ -67,7 +67,7 @@ class Logger(object):
                 logger.write("Mortality Rate: {}\n".format(mortality_rate))
                 logger.write("Basic Reproduction Rate: {}".format(basic_repro_num))
 
-                logger.write(pop_size, vacc_percentage, virus_name, mortality_rate, basic_repro_num, end="\t")
+                # logger.write(pop_size, vacc_percentage, virus_name, mortality_rate, basic_repro_num, end="\t")
 
         # TODO: Finish this method.  The simulation class should use this method
         # immediately upon creation, to log the specific parameters of the simulation
@@ -85,19 +85,19 @@ class Logger(object):
                         person2_vacc, person2_sick):
 
         if person2_vacc == True:
-            print(str(person2_vacc) + ":person2_vacc should be True")
+            # print(str(person2_vacc) + ":person2_vacc should be True")
             with open(self.file_name, 'a') as logger:
                 logger.write("Person {} didn't infect Person {} because vaccinated.\n".format(person1._id, person2._id))
         if person2_vacc == False:
-            print(str(person2_vacc) + ":person2_vacc should be False")
-            print(str(did_infect)+ " person is infected")
+            # print(str(person2_vacc) + ":person2_vacc should be False")
+            # print(str(did_infect)+ " person is infected")
             # person2_survival = person2.did_survive_infection()
             if did_infect == True:
-                print(str(did_infect) + ":did_infect should be True")
+                # print(str(did_infect) + ":did_infect should be True")
                 with open(self.file_name, 'a') as logger:
                     logger.write("Person {} infects Person {}\n".format(person1._id, person2._id))
             else:
-                print(str(did_infect) + ":did_infect should be False")
+                # print(str(did_infect) + ":did_infect should be False")
                 with open(self.file_name, 'a') as logger:
                     logger.write("Person {} didn't infect Person {} because vaccinated.\n".format(person1._id, person2._id))
 
@@ -120,9 +120,9 @@ class Logger(object):
 
         with open(self.file_name, 'a') as logger:
             if did_die_from_infection == False:
-                logger.write("Person {} died from infection\n").format(person._id)
+                logger.write("Person {} died from infection\n".format(person._id))
             else:
-                logger.write("Person {} survived infection.\n").format(person._id)
+                logger.write("Person {} survived infection.\n".format(person._id))
 
         # TODO: Finish this method.  The Simulation object should use this method to log
         # the results of every call of a Person object's .resolve_infection() method.
