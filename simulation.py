@@ -144,7 +144,7 @@ class Simulation(object):
 
 
         elif self.current_infected == 0:
-            print("The virus has ceased to spread. With a population of " + str(len(self.population)-dead_count) + " still alive.")
+            # print("The virus has ceased to spread. With a population of " + str(len(self.population)-dead_count) + " still alive.")
             return False
 
 
